@@ -19,6 +19,7 @@ namespace NaiveBayesClassifierWindow
         public NaiveBayesClassifierWindow()
         {
             InitializeComponent();
+            this.ImeMode = ImeMode.Alpha;
             TextTrainingData.ImeMode = ImeMode.OnHalf;
             TextTestData.ImeMode = ImeMode.OnHalf;
             SelectTestOption.SelectedIndex = 1;
@@ -186,6 +187,20 @@ namespace NaiveBayesClassifierWindow
                 }
             }
             return a;
+        }
+
+        private void ButtonClassify_Click(object sender, EventArgs e)
+        {
+            var start = DateTime.Now;
+            classifier.SetClass(SelectClass.SelectedItem.ToString());
+            classifier.LoadData(data);
+            classifier.TrainModel();
+            TextOutput.ResetText();
+            foreach (var row in TextTestData.Text.Split('\n'))
+            {
+                TextOutput.AppendText($"{row}\t=> {classifier.TrainedModel.GetEstimatedClass(row)}\n");
+            }
+            TextOutput.AppendText($"\nExecute time:\t{new TimeSpan(DateTime.Now.Ticks - start.Ticks).TotalSeconds.ToString()}s\n");
         }
 
         private NaiveBayesClassifier classifier;

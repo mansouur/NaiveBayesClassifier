@@ -47,6 +47,7 @@
             this.TextPercentage = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.TextOutput = new System.Windows.Forms.RichTextBox();
+            this.ButtonClassify = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -257,11 +258,23 @@
             this.TextOutput.Text = "";
             this.TextOutput.WordWrap = false;
             // 
+            // ButtonClassify
+            // 
+            this.ButtonClassify.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ButtonClassify.Location = new System.Drawing.Point(526, 126);
+            this.ButtonClassify.Name = "ButtonClassify";
+            this.ButtonClassify.Size = new System.Drawing.Size(75, 23);
+            this.ButtonClassify.TabIndex = 19;
+            this.ButtonClassify.Text = "Classify";
+            this.ButtonClassify.UseVisualStyleBackColor = true;
+            this.ButtonClassify.Click += new System.EventHandler(this.ButtonClassify_Click);
+            // 
             // NaiveBayesClassifierWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1039, 532);
+            this.Controls.Add(this.ButtonClassify);
             this.Controls.Add(this.TextOutput);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.TextPercentage);
@@ -280,7 +293,10 @@
             this.Controls.Add(this.TextTrainingData);
             this.Controls.Add(this.ButtonImportTrainingData);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "NaiveBayesClassifierWindow";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "NaiveBayesClassifier";
             this.Load += new System.EventHandler(this.NaiveBayesClassifierWindow_Load);
             this.ResumeLayout(false);
@@ -308,6 +324,7 @@
         private System.Windows.Forms.TextBox TextPercentage;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.RichTextBox TextOutput;
+        private System.Windows.Forms.Button ButtonClassify;
     }
 }
 
