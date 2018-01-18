@@ -9,6 +9,19 @@ namespace DataMining.NaiveBayesClassifier
 {
     public class NaiveBayesClassifier
     {
+        public NaiveBayesClassifier() { }
+
+        public NaiveBayesClassifier(IEnumerable<AttributeData> attributes)
+        {
+            LoadAttribute(attributes);
+        }
+
+        public NaiveBayesClassifier(IEnumerable<AttributeData> attributes,
+            IEnumerable<IEnumerable<string>> data, string className)
+        {
+            Load(attributes, data, className);
+        }
+
         public void LoadAttribute(IEnumerable<AttributeData> attributes)
         {
             Attributes = attributes;
@@ -24,9 +37,9 @@ namespace DataMining.NaiveBayesClassifier
             Attributes = Attributes.Select(x =>
             {
                 if (x.AttributeName == attributeName)
-                {
                     x.AsClass();
-                }
+                else
+                    x.IsClass = false;
                 return x;
             });
             int i = 0;
@@ -34,7 +47,7 @@ namespace DataMining.NaiveBayesClassifier
             {
                 if (o.IsClass)
                 {
-                    ClassInfo = o;
+                    _ClassInfo = o;
                     ClassIndex = i;
                     break;
                 }
@@ -136,7 +149,9 @@ namespace DataMining.NaiveBayesClassifier
 
         public IEnumerable<AttributeData> Attributes { get; private set; }
 
-        private AttributeData ClassInfo;
+        private AttributeData _ClassInfo;
+
+        public AttributeData ClassInfo => _ClassInfo;
 
         private int ClassIndex;
 

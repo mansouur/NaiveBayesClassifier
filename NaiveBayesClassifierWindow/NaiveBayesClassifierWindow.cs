@@ -21,7 +21,7 @@ namespace NaiveBayesClassifierWindow
             InitializeComponent();
             TextTrainingData.ImeMode = ImeMode.OnHalf;
             TextTestData.ImeMode = ImeMode.OnHalf;
-            SelectTestOption.SelectedIndex = 0;
+            SelectTestOption.SelectedIndex = 1;
             TextFold.ImeMode = ImeMode.Alpha;
             TextPercentage.ImeMode = ImeMode.Alpha;
             TextOutput.ImeMode = ImeMode.Alpha;
@@ -111,6 +111,7 @@ namespace NaiveBayesClassifierWindow
 
         private void ButtonGenerateModel_Click(object sender, EventArgs e)
         {
+            var start = DateTime.Now;
             classifier.SetClass(SelectClass.SelectedItem.ToString());
             int[][] confusionMatrix = null;
             int dataCount = data.Count();
@@ -146,32 +147,31 @@ namespace NaiveBayesClassifierWindow
                     confusionMatrix = new int[0][];
                     break;
             }
-            StringBuilder output = new StringBuilder();
+            TextOutput.ResetText();
             var itor = Enumerable.Range(0, confusionMatrix.Length);
             decimal testCount = confusionMatrix.SelectMany(x => x).Sum();
-            output.Append("Accuracy：");
-            output.AppendLine((itor.Select(x =>
-                confusionMatrix[x][x]).Sum() / testCount).ToString());
-            output.AppendLine();
+            TextOutput.AppendText($"Accuracy:{(itor.Select(x => confusionMatrix[x][x]).Sum() / testCount).ToString()}\n\n");
             int i = 0;
             decimal d;
-            foreach (var o in classifier.Attributes.First(x => x.IsClass).NominalOption)
+            foreach (var o in classifier.ClassInfo.NominalOption)
             {
-                output.AppendLine($"{o}：");
-                output.Append("Precision：");
+                TextOutput.AppendText($"{o}：\n");
+                TextOutput.AppendText("Precision:\t");
                 d = itor.Select(x => confusionMatrix[x][i]).Sum();
-                output.AppendLine(d == 0m ? "∞" : (confusionMatrix[i][i] / d).ToString());
+                TextOutput.AppendText(d == 0m ? "∞" : (confusionMatrix[i][i] / d).ToString());
+                TextOutput.AppendText("\n");
                 d = itor.Select(x => confusionMatrix[i][x]).Sum();
-                output.Append("Recall：");
-                output.AppendLine(d == 0m ? "∞" : (confusionMatrix[i][i] / d).ToString());
+                TextOutput.AppendText("Recall:\t");
+                TextOutput.AppendText(d == 0m ? "∞" : (confusionMatrix[i][i] / d).ToString());
+                TextOutput.AppendText("\n");
                 d = itor.Select(x => confusionMatrix[i][x]).Concat(
                     itor.Select(x => confusionMatrix[x][i])).Sum();
-                output.Append("F1-measure：");
-                output.AppendLine(d == 0m ? "∞" : (confusionMatrix[i][i] * 2 / d).ToString());
-                output.AppendLine();
+                TextOutput.AppendText("F1-measure:\t");
+                TextOutput.AppendText(d == 0m ? "∞" : (confusionMatrix[i][i] * 2 / d).ToString());
+                TextOutput.AppendText("\n\n");
                 i++;
             }
-            TextOutput.Text = output.ToString();
+            TextOutput.AppendText($"Execute time:\t{new TimeSpan(DateTime.Now.Ticks - start.Ticks).TotalSeconds.ToString()}s\n");
         }
 
         private int[][] AddMatrix(int[][] a, int[][] b)

@@ -206,7 +206,6 @@
             // 
             // TextFold
             // 
-            this.TextFold.Enabled = false;
             this.TextFold.Font = new System.Drawing.Font("Consolas", 10F);
             this.TextFold.Location = new System.Drawing.Point(927, 68);
             this.TextFold.Name = "TextFold";
