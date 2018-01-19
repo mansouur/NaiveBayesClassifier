@@ -48,6 +48,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.TextOutput = new System.Windows.Forms.RichTextBox();
             this.ButtonClassify = new System.Windows.Forms.Button();
+            this.CBConfusionMatrix = new System.Windows.Forms.CheckBox();
+            this.CBRandomOrder = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -261,7 +263,7 @@
             // ButtonClassify
             // 
             this.ButtonClassify.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ButtonClassify.Location = new System.Drawing.Point(526, 126);
+            this.ButtonClassify.Location = new System.Drawing.Point(832, 126);
             this.ButtonClassify.Name = "ButtonClassify";
             this.ButtonClassify.Size = new System.Drawing.Size(75, 23);
             this.ButtonClassify.TabIndex = 19;
@@ -269,11 +271,37 @@
             this.ButtonClassify.UseVisualStyleBackColor = true;
             this.ButtonClassify.Click += new System.EventHandler(this.ButtonClassify_Click);
             // 
+            // CBConfusionMatrix
+            // 
+            this.CBConfusionMatrix.AutoSize = true;
+            this.CBConfusionMatrix.Checked = true;
+            this.CBConfusionMatrix.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.CBConfusionMatrix.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CBConfusionMatrix.Location = new System.Drawing.Point(613, 161);
+            this.CBConfusionMatrix.Name = "CBConfusionMatrix";
+            this.CBConfusionMatrix.Size = new System.Drawing.Size(177, 23);
+            this.CBConfusionMatrix.TabIndex = 20;
+            this.CBConfusionMatrix.Text = "Show Confusion Matrix";
+            this.CBConfusionMatrix.UseVisualStyleBackColor = true;
+            // 
+            // CBRandomOrder
+            // 
+            this.CBRandomOrder.AutoSize = true;
+            this.CBRandomOrder.Font = new System.Drawing.Font("Calibri", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CBRandomOrder.Location = new System.Drawing.Point(669, 126);
+            this.CBRandomOrder.Name = "CBRandomOrder";
+            this.CBRandomOrder.Size = new System.Drawing.Size(157, 23);
+            this.CBRandomOrder.TabIndex = 21;
+            this.CBRandomOrder.Text = "Random Data Order";
+            this.CBRandomOrder.UseVisualStyleBackColor = true;
+            // 
             // NaiveBayesClassifierWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1039, 532);
+            this.Controls.Add(this.CBRandomOrder);
+            this.Controls.Add(this.CBConfusionMatrix);
             this.Controls.Add(this.ButtonClassify);
             this.Controls.Add(this.TextOutput);
             this.Controls.Add(this.label5);
@@ -325,6 +353,8 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.RichTextBox TextOutput;
         private System.Windows.Forms.Button ButtonClassify;
+        private System.Windows.Forms.CheckBox CBConfusionMatrix;
+        private System.Windows.Forms.CheckBox CBRandomOrder;
     }
 }
 

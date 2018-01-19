@@ -113,6 +113,8 @@ namespace NaiveBayesClassifierWindow
         private void ButtonGenerateModel_Click(object sender, EventArgs e)
         {
             var start = DateTime.Now;
+            if (CBRandomOrder.Checked)
+                SetDataRandomOrder();
             classifier.SetClass(SelectClass.SelectedItem.ToString());
             int[][] confusionMatrix = null;
             int dataCount = data.Count();
@@ -149,9 +151,21 @@ namespace NaiveBayesClassifierWindow
                     break;
             }
             TextOutput.ResetText();
+            if (CBConfusionMatrix.Checked)
+            {
+                TextOutput.AppendText("Confusion Matrix:\n");
+                TextOutput.AppendText($"\t{string.Join("\t", classifier.ClassInfo.NominalOption)}\n");
+                var classOption = classifier.ClassInfo.NominalOption.GetEnumerator();
+                for (int j = 0; j < classifier.ClassInfo.NominalOptionCount; j++)
+                {
+                    classOption.MoveNext();
+                    TextOutput.AppendText($"{classOption.Current}\t{string.Join("\t", confusionMatrix[j])}\n");
+                }
+                TextOutput.AppendText("\n");
+            }
             var itor = Enumerable.Range(0, confusionMatrix.Length);
             decimal testCount = confusionMatrix.SelectMany(x => x).Sum();
-            TextOutput.AppendText($"Accuracy:{(itor.Select(x => confusionMatrix[x][x]).Sum() / testCount).ToString()}\n\n");
+            TextOutput.AppendText($"Accuracy:\t{(itor.Select(x => confusionMatrix[x][x]).Sum() / testCount).ToString()}\n\n");
             int i = 0;
             decimal d;
             foreach (var o in classifier.ClassInfo.NominalOption)
@@ -175,6 +189,22 @@ namespace NaiveBayesClassifierWindow
             TextOutput.AppendText($"Execute time:\t{new TimeSpan(DateTime.Now.Ticks - start.Ticks).TotalSeconds.ToString()}s\n");
         }
 
+        private void ButtonClassify_Click(object sender, EventArgs e)
+        {
+            var start = DateTime.Now;
+            if (CBRandomOrder.Checked)
+                SetDataRandomOrder();
+            classifier.SetClass(SelectClass.SelectedItem.ToString());
+            classifier.LoadData(data);
+            classifier.TrainModel();
+            TextOutput.ResetText();
+            foreach (var row in TextTestData.Text.Split('\n'))
+            {
+                TextOutput.AppendText($"{row}\t=> {classifier.TrainedModel.GetEstimatedClass(row)}\n");
+            }
+            TextOutput.AppendText($"\nExecute time:\t{new TimeSpan(DateTime.Now.Ticks - start.Ticks).TotalSeconds.ToString()}s\n");
+        }
+
         private int[][] AddMatrix(int[][] a, int[][] b)
         {
             if (a == null)
@@ -189,18 +219,10 @@ namespace NaiveBayesClassifierWindow
             return a;
         }
 
-        private void ButtonClassify_Click(object sender, EventArgs e)
+        private void SetDataRandomOrder()
         {
-            var start = DateTime.Now;
-            classifier.SetClass(SelectClass.SelectedItem.ToString());
-            classifier.LoadData(data);
-            classifier.TrainModel();
-            TextOutput.ResetText();
-            foreach (var row in TextTestData.Text.Split('\n'))
-            {
-                TextOutput.AppendText($"{row}\t=> {classifier.TrainedModel.GetEstimatedClass(row)}\n");
-            }
-            TextOutput.AppendText($"\nExecute time:\t{new TimeSpan(DateTime.Now.Ticks - start.Ticks).TotalSeconds.ToString()}s\n");
+            var rand = new Random(Guid.NewGuid().GetHashCode());
+            data = data.OrderBy(x => rand.Next());
         }
 
         private NaiveBayesClassifier classifier;
